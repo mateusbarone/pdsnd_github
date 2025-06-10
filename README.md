@@ -15,3 +15,4 @@ This project aims to study the trends on bikesharing in three major American cit
 ### Credits
 * Function to_datetime: _https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html_
 * Function day_name(): _https://www.w3resource.com/pandas/series/series-dt-day_name.php_
+* Original repository: _https://github.com/udacity/pdsnd_github_
