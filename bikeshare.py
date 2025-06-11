@@ -75,12 +75,13 @@ def load_data(city, month, day):
         df - Pandas DataFrame containing city data filtered by month and day
     """
     df = pd.read_csv(CITY_DATA[city], parse_dates=['Start Time'])
-    #df = pd.read_csv(CITY_DATA[city])
-    # convert the Start Time column to datetime
-    # df['Start Time'] = pd.to_datetime(df['Start Time'])
     # extract month and day of week from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.day_name()
+    #calculating used columns to avoid redundancy
+    df['hour'] = df['Start Time'].dt.hour
+    df['trajectory'] = df['Start Station'] + ' -> ' + df['End Station']
+    df['Trip Duration Minutes'] = df['Trip Duration'] / 60
     # filter by month if applicable.
     if month != 'all':
         # use the index of the months list to get the corresponding int
@@ -120,7 +121,7 @@ def time_stats(df):
 
     # display the most common start hour
     # again, using the mode and creating the column hour extracting it from the Start Time
-    df['hour'] = df['Start Time'].dt.hour
+    # df['hour'] = df['Start Time'].dt.hour
     popular_hour = df['hour'].mode()[0]
     print ('Most popular hour of the day:', popular_hour)
 
@@ -147,7 +148,7 @@ def station_stats(df):
 
     # display most frequent combination of start station and end station trip
     # create a new column that concantenates both the star and ending stations to get the trajectory
-    df['trajectory'] = df['Start Station'] + ' -> ' + df['End Station']
+    # df['trajectory'] = df['Start Station'] + ' -> ' + df['End Station']
     popular_trajectory = df['trajectory'].mode()[0]
     print ('Most popular trajectory:', popular_trajectory)
 
@@ -164,7 +165,7 @@ def trip_duration_stats(df):
 
 
     # get the duration in minutes
-    df['Trip Duration Minutes'] = df['Trip Duration'] / 60
+    # df['Trip Duration Minutes'] = df['Trip Duration'] / 60
 
     # display total travel time by summing all trip durations
     total_travel_time = df['Trip Duration Minutes'].sum()
